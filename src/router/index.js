@@ -1,27 +1,54 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
+import Dashboard from "../views/Dashboard.vue";
+import LogIn from "../views/Auth/Login.vue";
+import SignUp from "../views/Auth/Register.vue";
+import firebase from "firebase/app";
+import 'firebase/app';
+import 'firebase/auth';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-  const routes = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
-
+    path: "/LogIn",
+    name: "LogIn",
+    component: LogIn,
+  },
+  {
+    path: "/SignUp",
+    name: "SignUp",
+    component: SignUp,
+  },
+  {
+    path: "/Dashboard",
+    name: "Dashboard",
+    component: Dashboard,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+];
+//is how an middleware  
 const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
 })
 
-export default router
+export default router;
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
+  if(requiresAuth) {
+    firebase.auth().onAuthStateChanged( (user) => {
+      if (!user) next('/LogIn')
+      else next();
+    })
+  } else next()
+});
