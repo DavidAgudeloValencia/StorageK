@@ -14,9 +14,9 @@
         <h1
           class="absolute inset-x-0 bottom-0 text-center text-red-500 font-light text-xl mb-4 animate-bounce xl:block hidden"
         >
-          <a href="/about">
+          <router-link to="/About">
             More information <i class="fas fa-mouse-pointer"></i>
-          </a>
+          </router-link>
         </h1>
       </div>
       <div class="bg-transparent hidden xl:block">
