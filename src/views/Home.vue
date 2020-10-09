@@ -115,7 +115,7 @@
     <h1
       class="absolute inset-x-0 text-center text-red-500 font-light text-xl animate-bounce bg-transparent mt-6 pb-8 xl:hidden"
     >
-      <router-link href="/about">
+      <router-link to="/About">
         More information <i class="fas fa-mouse-pointer"></i>
       </router-link>
     </h1>
