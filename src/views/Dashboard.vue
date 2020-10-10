@@ -106,7 +106,7 @@ export default {
   name: "Dashboard",
   data() {
     return {
-      url: "http://storagek-api.herokuapp.com/public/api/file",
+      url: "https://storagek-api.herokuapp.com/public/api/file",
       user: [],
       /* object to list the images */
       images: [],
