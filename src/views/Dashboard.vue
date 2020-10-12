@@ -157,7 +157,10 @@ export default {
         console.log("Good");
         setInterval(()=>{
           if (this.load == '100') {
-            location.reload()
+            /* location.reload() */
+            this.$router.push("/");
+            this.$router.push("/Dashboard");
+            this.load = " "
           }
           
         }, 500)
