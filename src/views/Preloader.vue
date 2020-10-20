@@ -58,7 +58,7 @@ export default {
     showToggle() {
       setTimeout(() => {
         this.show = false;
-      }, 700);
+      }, 900);
     },
   },
 };
