@@ -91,7 +91,7 @@
           </button>
           <input
             type="password"
-            id="URL"
+            id="URLL"
             placeholder="URL"
             value="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
             class="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 w-4/5 ml-8"
@@ -137,8 +137,10 @@ export default {
     showme() {
       if (this.showeye) {
         document.getElementById("URL").type = "password";
+        document.getElementById("URLL").type = "password";
       } else {
         document.getElementById("URL").type = "text";
+        document.getElementById("URLL").type = "text";
       }
       this.showeye = !this.showeye;
     },

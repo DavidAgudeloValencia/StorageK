@@ -8,9 +8,7 @@
     <div class="mx-20 my-12">
       <h1 class="text-center text-4xl font-semibold">Description</h1>
       <p class="text-justify font-light text-2xl">
-        This application works as image storage to later be used by means of the
-        API with which this application connects to make the storage The images
-        are registered by email and by email those listed in the Dashboard.
+        This application works as image storage to later be used, by means of a API with which this application connects to make the storage The images are registered by email and by email is listed in the Dashboard. 
       </p>
       <hr />
       <br />

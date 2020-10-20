@@ -93,7 +93,6 @@ export default {
   name: "SignUp",
   methods: {
     register() {
-      console.log("register");
       this.err = "";
       if (this.account.email && this.account.password) {
         //Send Form
@@ -108,50 +107,30 @@ export default {
             this.account.name = "";
             this.account.email = "";
             this.account.password = "";
-            console.log(user);
+            user
             this.$router.push({ name: "Dashboard" });
           })
           .catch((er) => {
             this.err = er.message;
           });
-        console.log("Good");
       } else {
         this.err = "All fields are required";
       }
     },
     /* login with google using firebase */
     google() {
-      console.log("google");
       var provider = new firebase.auth.GoogleAuthProvider();
       firebase
         .auth()
         .signInWithPopup(provider)
         .then((result) => {
-          console.log(result.user);
           this.$router.push({ name: "Dashboard" });
+          result
         })
         .catch((error) => {
-          console.log(error.message);
           this.err = error.message;
         });
-    }/* ,
-    facebook() {
-      console.log("facebook");
-      var provider = new firebase.auth.FacebookAuthProvider();
-      firebase
-        .auth()
-        .signInWithPopup(provider)
-        .then((result) => {
-          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-          console.log(result.user);
-          this.$router.push({ name: "Dashboard" });
-        })
-        .catch((error) => {
-          // Handle Errors here.
-          console.log(error.message);
-          this.err = error.message;
-        });
-    }, */
+    }
   },
 };
 </script>

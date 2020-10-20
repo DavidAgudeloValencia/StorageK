@@ -2,6 +2,7 @@
   <header
     class="bg-gray-100 sm:flex sm:justify-between sm:items-center sm:px-4 sm:py-3"
   >
+  <Preloader/>
     <div class="flex items-center justify-between px-4 py-3 sm:p-0">
       <router-link to="/">
         <div class="flex items-center flex-shrink-0 mr-8">
@@ -42,58 +43,57 @@
       >
       <!-- Navbar for change login and register for the accounts and logout -->
       <div class=" absolute top-0 right-0">
-        <div class="relative px-2 pt-2 pb-4 sm:flex sm:p-0 mr-8 mt-3" v-if="user">
-        <button
-          @click="isOpen = !isOpen"
-          class="relative z-10 block h-10 w-10 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white"
-        >
-          <img
-            class="h-full w-full object-cover"
-            src="@/assets/avatar-male.png"
-            alt="Your avatar"
-          />
-        </button>
-        <button
-          v-if="isOpen"
-          @click="isOpen = false"
-          tabindex="-1"
-          class="fixed inset-0 h-full w-full bg-black opacity-50 cursor-default"
-        ></button>
         <div
-          v-if="isOpen"
-          class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl"
+          class="relative px-2 pt-2 pb-4 sm:flex sm:p-0 mr-8 mt-3"
+          v-if="user"
         >
-          <router-link
-            to="/Dashboard"
-            class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            >Dashboard</router-link
+          <button
+            @click="isOpen = !isOpen"
+            class="relative z-10 block h-10 w-10 rounded-full overflow-hidden border-2 border-gray-600 focus:outline-none focus:border-white"
           >
-          <a
-            @click.prevent="signout"
-            class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
-            >Sign out</a
+            <img
+              class="h-full w-full object-cover"
+              src="@/assets/avatar-male.png"
+              alt="Your avatar"
+            />
+          </button>
+          <button
+            v-if="isOpen"
+            @click="isOpen = false"
+            tabindex="-1"
+            class="fixed inset-0 h-full w-full bg-black opacity-50 cursor-default"
+          ></button>
+          <div
+            v-if="isOpen"
+            class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl"
           >
+            <router-link
+              to="/Dashboard"
+              class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+              >Dashboard</router-link
+            >
+            <a
+              @click.prevent="signout"
+              class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"
+              >Sign out</a
+            >
+          </div>
+        </div>
+        <div v-else class="mt-4">
+          <nav class="px-2 pt-2 pb-4 sm:flex sm:p-0">
+            <router-link
+              to="/SignUp"
+              class="bg-gradient-to-r from-indigo-400 to-purple-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold px-4 py-2 rounded mr-4"
+              >Sign Up</router-link
+            >
+            <router-link
+              to="/LogIn"
+              class="bg-gradient-to-r from-indigo-400 to-teal-400 hover:from-teal-500 hover:to-indigo-500 text-white font-semibold px-4 py-2 rounded mr-4"
+              >LogIn</router-link
+            >
+          </nav>
         </div>
       </div>
-      <div v-else class="mt-4">
-        <nav          
-          class="px-2 pt-2 pb-4 sm:flex sm:p-0"
-        >
-          <router-link
-            to="/SignUp"
-            class="bg-gradient-to-r from-indigo-400 to-purple-500 hover:from-purple-500 hover:to-indigo-400 text-white font-semibold px-4 py-2 rounded mr-4"
-            >Sign Up</router-link
-          >
-          <router-link
-            to="/LogIn"
-            class="bg-gradient-to-r from-indigo-400 to-teal-400 hover:from-teal-500 hover:to-indigo-500 text-white font-semibold px-4 py-2 rounded mr-4"
-            >LogIn</router-link
-          >
-        </nav>
-      </div>
-        
-        </div>   
-      
     </div>
   </header>
 </template>
@@ -102,7 +102,11 @@
 import "@/firebase/init";
 import firebase from "firebase/app";
 require("firebase/auth");
+import Preloader from "@/views/Preloader";
 export default {
+  components: {
+    Preloader,
+  },
   data() {
     return {
       isOpen: false,
@@ -113,7 +117,7 @@ export default {
     //functionality of the nabvar
     const handleEscape = (e) => {
       if (e.key === "Esc" || e.key === "Escape") {
-        this.isOpen = false;
+        this.isOpen = true;
       }
     };
     document.addEventListener("keydown", handleEscape);
@@ -138,6 +142,7 @@ export default {
         .then(() => {
           this.$router.push("/");
         });
+      this.isOpen = false;
     },
   },
 };

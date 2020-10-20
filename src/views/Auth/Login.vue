@@ -101,32 +101,28 @@ export default {
           .then((user) => {
             this.account.email = "";
             this.account.password = "";
-            console.log(user);
             this.$router.push({ name: "Dashboard" });
+            user
           })
           .catch((er) => {
             this.errores = er.message;
           });
-        console.log("Good");
       } else {
         this.errores = "All fields are required";
       }
     },
     /* login with google using firebase */
     google() {
-      console.log("google");
       var provider = new firebase.auth.GoogleAuthProvider();
       firebase
         .auth()
         .signInWithPopup(provider)
         .then((result) => {
-          console.log(result.user);
-          console.log("Good");
           this.$router.push({ name: "Dashboard" });
+          result
         })
         .catch((error) => {
           this.errores = error.message;
-          console.log(error.message);
         });
     },
   },

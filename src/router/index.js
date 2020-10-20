@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
   if(requiresAuth) {
     firebase.auth().onAuthStateChanged( (user) => {
-      if (!user) next('/LogIn')
+      if (!user) next('/')
       else next();
     })
   } else next()

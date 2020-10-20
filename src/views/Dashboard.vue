@@ -2,7 +2,7 @@
   <div class="w-full">
     <div class="bg-gray-200">
       <h1 class="text-center text-3xl font-light">
-        select your photo to upload {{ this.load }}
+        Select your photo to upload {{ this.load }}
       </h1>
       <div class="text-center pt-12 pb-1">
         <div
@@ -42,7 +42,7 @@
               :style="[{ width: this.load + '%' }]"
               class="shadow-none flex flex-col whitespace-nowrap text-gray-800 justify-center bg-teal-400"
             >
-              <p class="animate-bounce">Loading {{ this.load }}%</p>
+              <p class="animate-bounce">{{ this.load }}</p>
             </div>
           </div>
         </div>
@@ -50,20 +50,20 @@
     </div>
     <hr />
     <div class="bg-gray-100 pb-16">
-      <h1 class="text-center text-3xl font-light mb-8">List of yours Images</h1>
+      <h1 class="text-center text-3xl font-light mb-8">List of your Images</h1>
       <div class="">
         <div
           class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6"
         >
           <!-- List objet  -->
-          <div class="" v-for="(item, id) in images" :key="id">
+          <div class="grid grid-flow-row auto-rows-max md:auto-rows-min mb-4" v-for="(item, id) in images" :key="id">
             <div
-              class="shadow-outline max-w-sm rounded overflow-hidden  bg-gray-100 ml-4 pb-3"
+              class="shadow-outline max-w-sm rounded overflow-hidden  bg-gray-100 ml-4 pb-3 "
             >
               <img
-                class="w-full"
+                class="w-full h-48"
                 :src="
-                  'http://storagek-api.herokuapp.com/public/storage/images/' +
+                  'https://storagek-api.herokuapp.com/public/storage/images/' +
                     item.file
                 "
                 alt="Una Img bonita"
@@ -83,7 +83,7 @@
                   id="URL"
                   placeholder="URL"
                   :value="
-                    'http://storagek-api.herokuapp.com/public/storage/images/' +
+                    'https://storagek-api.herokuapp.com/public/storage/images/' +
                       item.file
                   "
                   class="bg-gray-200 appearance-none border-2 border-gray-200 rounded py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 w-4/5 ml-2"
@@ -111,7 +111,7 @@ export default {
       /* object to list the images */
       images: [],
       selectedFile: null,
-      load: "",
+      load: "0",
       errores: "",
     };
   },
@@ -121,20 +121,32 @@ export default {
       .get(this.url + "/" + this.user.email)
       .then((res) => {
         this.images = res.data;
-        console.log(res);
       })
       .catch((err) => {
-        console.error(err);
+        this.errores = err
       });
+    this.load = "0";
   },
   methods: {
+    create() {
+    this.user = firebase.auth().currentUser;
+    axios
+      .get(this.url + "/" + this.user.email)
+      .then((res) => {
+        this.images = res.data;
+      })
+      .catch((err) => {
+        this.errores = err
+      });
+
+    
+  },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
     },
     upload() {
       this.errores = "";
       if (this.selectedFile) {
-        console.log("Uploading...");
         const fd = new FormData();
         fd.append("file", this.selectedFile);
         fd.append("email", this.user.email);
@@ -151,19 +163,10 @@ export default {
           })
           .then((res) => {
             const imageServidor = res.data;
-            console.log(imageServidor);
             this.images.push(imageServidor);
+            this.load = "0"
+            this.create()
           });
-        console.log("Good");
-        setInterval(()=>{
-          if (this.load == '100') {
-            /* location.reload() */
-            this.$router.push("/");
-            this.$router.push("/Dashboard");
-            this.load = " "
-          }
-          
-        }, 500)
 
       } else {
         this.errores = "First select your photo";
